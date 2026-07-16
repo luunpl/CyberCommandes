@@ -1,0 +1,15 @@
+# Root build context is used by the backend image build.
+.git
+.github
+**/target/
+**/node_modules/
+client/dist/
+client/.angular/
+htmlReport/
+k8s/
+helm/
+monitoring/
+resources/
+*.md
+# Large DB dump is not needed inside the backend image.
+docker/matrice-complete.sql
