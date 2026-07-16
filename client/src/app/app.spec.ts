@@ -14,10 +14,13 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should render the navigation tabs', async () => {
     const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, projet_int');
+    const tabs = compiled.querySelector('.nav-tabs');
+    expect(tabs?.textContent).toContain('Vue Actuelle');
+    expect(tabs?.textContent).toContain('Historique');
   });
 });
