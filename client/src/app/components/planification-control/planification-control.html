@@ -1,0 +1,142 @@
+<div class="planification-control">
+  <div class="panel-header">
+    <h2>VRP Optimizer</h2>
+    <p class="header-sub">Planification de tournées</p>
+  </div>
+
+  <div class="panel">
+    <h3>Chargement des commandes</h3>
+    <div class="form-group">
+      <div class="input-row">
+        <label>Date de livraison</label>
+        <input type="date" [(ngModel)]="selectedDate" (change)="onLoadData()" class="input-control">
+      </div>
+      @if (planifService.adresses().length > 0) {
+        <div class="input-row">
+          <label>Adresses à livrer</label>
+          <span class="address-badge">{{ planifService.adresses().length - 1 }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Flotte</h3>
+    <div class="form-group">
+      <div class="input-row">
+        <label>Nombre de véhicules</label>
+        <input type="number" [(ngModel)]="nbVehicles" min="1" max="10" class="input-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Algorithmes</h3>
+    <div class="actions-list">
+      <button class="btn btn-blue" (click)="onRunGrid()">Grid Strategy</button>
+      <button class="btn btn-purple" (click)="onRunGreedy()">Greedy Matrix</button>
+      <button class="btn btn-green" (click)="onRunClarkeAndWright()">Clarke & Wright</button>
+      <button class="btn btn-yellow" (click)="runKMeansStrategy()">K-Means</button>
+    </div>
+  </div>
+
+  <div class="results-container">
+    <p class="results-title">Résultats</p>
+
+    @if (resultStandard(); as res) {
+      <div class="results-panel blue-theme">
+        <h3>{{ res.algoName }}</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Distance</span>
+            <span class="stat-value">{{ res.distanceKm | number:'1.0-2' }} km</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Durée</span>
+            <span class="stat-value">{{ res.durationH | number:'1.0-2' }} h</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Routes</span>
+            <span class="stat-value">{{ res.nbVehicules }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Points</span>
+            <span class="stat-value">{{ res.nbPoints }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (resultGreedy(); as resG) {
+      <div class="results-panel purple-theme">
+        <h3>{{ resG.algoName }}</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Distance</span>
+            <span class="stat-value">{{ resG.distanceKm | number:'1.0-2' }} km</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Durée</span>
+            <span class="stat-value">{{ resG.durationH | number:'1.0-2' }} h</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Routes</span>
+            <span class="stat-value">{{ resG.nbVehicules }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Points</span>
+            <span class="stat-value">{{ resG.nbPoints }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (resultCW(); as resCW) {
+      <div class="results-panel green-theme">
+        <h3>{{ resCW.algoName }}</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Distance</span>
+            <span class="stat-value">{{ resCW.distanceKm | number:'1.0-2' }} km</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Durée</span>
+            <span class="stat-value">{{ resCW.durationH | number:'1.0-2' }} h</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Routes</span>
+            <span class="stat-value">{{ resCW.nbVehicules }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Points</span>
+            <span class="stat-value">{{ resCW.nbPoints }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (resultKM(); as resKM) {
+      <div class="results-panel yellow-theme">
+        <h3>{{ resKM.algoName }}</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Distance</span>
+            <span class="stat-value">{{ resKM.distanceKm | number:'1.0-2' }} km</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Durée</span>
+            <span class="stat-value">{{ resKM.durationH | number:'1.0-2' }} h</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Routes</span>
+            <span class="stat-value">{{ resKM.nbVehicules }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Points</span>
+            <span class="stat-value">{{ resKM.nbPoints }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

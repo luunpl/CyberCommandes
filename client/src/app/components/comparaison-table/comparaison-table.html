@@ -1,0 +1,134 @@
+<div class="table-container">
+  <h3>Comparatif des Solutions</h3>
+  <div class="energy-selector">
+    <span class="energy-label">Type de véhicule</span>
+
+    <div class="energy-buttons">
+      <button
+        type="button"
+        class="energy-button diesel"
+        [class.active]="motorisation() === 'diesel'"
+        (click)="setMotorisation('diesel')">
+        Diesel
+      </button>
+
+      <button
+        type="button"
+        class="energy-button essence"
+        [class.active]="motorisation() === 'essence'"
+        (click)="setMotorisation('essence')">
+        Essence
+      </button>
+
+      <button
+        type="button"
+        class="energy-button electrique"
+        [class.active]="motorisation() === 'electrique'"
+        (click)="setMotorisation('electrique')">
+        Electrique
+      </button>
+    </div>
+
+    <div class="prix-input-wrap">
+      <input
+        type="number"
+        class="prix-input"
+        [value]="prixSaisi()"
+        (input)="onPrixChange($event)"
+        min="0"
+        step="0.01">
+      <span class="prix-unite">€/{{ profilActuel().unite }}</span>
+    </div>
+  </div>
+
+
+  <p
+    class="table-note"
+    [class.diesel]="motorisation() === 'diesel'"
+    [class.essence]="motorisation() === 'essence'"
+    [class.electrique]="motorisation() === 'electrique'"
+  >
+    Calcul avec le profil {{ profilActuel().label }} :
+    {{ profilActuel().consommation100Km }} {{ profilActuel().unite }}/100 km,
+    {{ prixSaisi() }} €/{{ profilActuel().unite }}.
+  </p>
+
+
+
+  <table class="styled-table">
+    <thead>
+    <tr>
+      <th>Algorithme</th>
+      <th>Véhicules</th>
+      <th>Distance (Km)</th>
+      <th>Temps (h)</th>
+      <th>Colis</th>
+      <th>Energie ({{ profilActuel().unite }})</th>
+      <th>Coût énergie (€)</th>
+      <th>CO2 (kg)</th>
+    </tr>
+    </thead>
+    <tbody>
+
+      @if (gridResult(); as grid) {
+        <tr class="algo-grid">
+          <td>{{ grid.algoName }}</td>
+          <td>{{ grid.nbVehicules }}</td>
+          <td>{{ grid.distanceKm | number:'1.2-2' }}</td>
+          <td>{{ grid.durationH | number:'1.2-2' }}</td>
+          <td>{{ grid.nbPoints }}</td>
+          <td>{{ energieConsommee(grid) | number:'1.1-1' }}</td>
+          <td>{{ coutEnergie(grid) | number:'1.2-2' }}</td>
+          <td>{{ co2Kg(grid) | number:'1.1-1' }}</td>
+        </tr>
+      }
+
+      @if (greedyResult(); as greedy) {
+        <tr class="algo-greedy">
+          <td>{{ greedy.algoName }}</td>
+          <td>{{ greedy.nbVehicules }}</td>
+          <td>{{ greedy.distanceKm | number:'1.2-2' }}</td>
+          <td>{{ greedy.durationH | number:'1.2-2' }}</td>
+          <td>{{ greedy.nbPoints }}</td>
+          <td>{{ energieConsommee(greedy) | number:'1.1-1' }}</td>
+          <td>{{ coutEnergie(greedy) | number:'1.2-2' }}</td>
+          <td>{{ co2Kg(greedy) | number:'1.1-1' }}</td>
+        </tr>
+      }
+
+      @if (CWResult(); as cw) {
+        <tr class="algo-cw">
+          <td>{{ cw.algoName }}</td>
+          <td>{{ cw.nbVehicules }}</td>
+          <td>{{ cw.distanceKm | number:'1.2-2' }}</td>
+          <td>{{ cw.durationH | number:'1.2-2' }}</td>
+          <td>{{ cw.nbPoints }}</td>
+          <td>{{ energieConsommee(cw) | number:'1.1-1' }}</td>
+          <td>{{ coutEnergie(cw) | number:'1.2-2' }}</td>
+          <td>{{ co2Kg(cw) | number:'1.1-1' }}</td>
+        </tr>
+      }
+      @if (KMResult(); as km) {
+        <tr class="algo-km">
+          <td>{{ km.algoName }}</td>
+          <td>{{ km.nbVehicules }}</td>
+          <td>{{ km.distanceKm | number:'1.2-2' }}</td>
+          <td>{{ km.durationH | number:'1.2-2' }}</td>
+          <td>{{ km.nbPoints }}</td>
+          <td>{{ energieConsommee(km) | number:'1.1-1' }}</td>
+          <td>{{ coutEnergie(km) | number:'1.2-2' }}</td>
+          <td>{{ co2Kg(km) | number:'1.1-1' }}</td>
+        </tr>
+      }
+
+      @if (!gridResult() && !greedyResult() && !CWResult() && !KMResult()) {
+        <tr>
+          <td colspan="8" class="empty-message">
+            Lancez une optimisation pour voir les résultats.
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</div>

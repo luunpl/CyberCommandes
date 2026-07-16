@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommandeService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">fr.uga.miage.l3.services</a>
+</div>
+
+<h1>Coverage Summary for Class: CommandeService (fr.uga.miage.l3.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommandeService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (9/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package fr.uga.miage.l3.services;
+&nbsp;
+&nbsp;
+&nbsp;import fr.uga.miage.l3.component.CommandeComponent;
+&nbsp;import fr.uga.miage.l3.domain.models.Commande;
+&nbsp;import fr.uga.miage.l3.exceptions.rest.BadRequestRestException;
+&nbsp;import fr.uga.miage.l3.exceptions.rest.ClientEntityNotFoundRestException;
+&nbsp;import fr.uga.miage.l3.exceptions.rest.CommandeNotFoundRestException;
+&nbsp;import fr.uga.miage.l3.exceptions.technical.ClientEntityNotFoundException;
+&nbsp;import fr.uga.miage.l3.exceptions.technical.CommandeEntityNotFoundException;
+&nbsp;import fr.uga.miage.l3.request.CommandeCreationRequest;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class CommandeService {
+&nbsp;
+&nbsp;    private final CommandeComponent commandeComponent;
+&nbsp;
+&nbsp;    public Commande getCommandeById(Long idCommande) {
+&nbsp;        try {
+<b class="fc">&nbsp;            return commandeComponent.getCommande(idCommande);</b>
+&nbsp;        } catch (CommandeEntityNotFoundException e) {
+<b class="fc">&nbsp;            throw new CommandeNotFoundRestException(e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Commande createCommande(CommandeCreationRequest request) {
+&nbsp;
+<b class="pc">&nbsp;        if (request.reference() == null || request.reference().isBlank()) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;Creation with null or empty reference is not possible&quot;);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        if (request.clientId() == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;Création with null clientId is not possible&quot;);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        if (request.montant() != null &amp;&amp; request.montant() &lt; 0) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;Creation with negative montant is not possible&quot;);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            return commandeComponent.createCommande(request);</b>
+&nbsp;        } catch (ClientEntityNotFoundException e) {
+<b class="fc">&nbsp;            throw new ClientEntityNotFoundRestException(e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Set&lt;Commande&gt; getCommandesByDate(LocalDate date) {
+<b class="fc">&nbsp;        return commandeComponent.getCommandesByDate(date);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-11 13:20</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TourneeComponent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">fr.uga.miage.l3.component</a>
+</div>
+
+<h1>Coverage Summary for Class: TourneeComponent (fr.uga.miage.l3.component)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TourneeComponent</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package fr.uga.miage.l3.component;
+&nbsp;
+&nbsp;import fr.uga.miage.l3.domain.models.Tournee; // CHANGÉ : On importe le modèle du domaine
+&nbsp;import fr.uga.miage.l3.exceptions.rest.NotFoundElementRestException;
+&nbsp;import fr.uga.miage.l3.mappers.TourneeMapper;
+&nbsp;import fr.uga.miage.l3.models.JourneeEntity;
+&nbsp;import fr.uga.miage.l3.models.TourneeEntity;
+&nbsp;import fr.uga.miage.l3.repository.JourneeRepository;
+&nbsp;import fr.uga.miage.l3.repository.TourneeRepository;
+&nbsp;import fr.uga.miage.l3.request.TourneeCreationRequest;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class TourneeComponent {
+&nbsp;    private final TourneeRepository tourneeRepository;
+&nbsp;    private final TourneeMapper tourneeMapper;
+&nbsp;    private final JourneeRepository journeeRepository;
+&nbsp;
+&nbsp;
+&nbsp;    public Tournee createTournee(TourneeCreationRequest request) {
+<b class="fc">&nbsp;        TourneeEntity entityToSave = tourneeMapper.toEntity(request);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (request.journeeId() != null) {</b>
+<b class="fc">&nbsp;            JourneeEntity journee = journeeRepository.findById(request.journeeId())</b>
+<b class="fc">&nbsp;                    .orElseThrow(() -&gt; new NotFoundElementRestException(&quot;La journee [&quot; + request.journeeId() + &quot;] n&#39;existe pas&quot;));</b>
+<b class="fc">&nbsp;            entityToSave.setJourneeEntity(journee);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        TourneeEntity savedEntity = tourneeRepository.save(entityToSave);</b>
+<b class="fc">&nbsp;        return tourneeMapper.toTournee(savedEntity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public Set&lt;Tournee&gt; getAllTournee(Long idJournee){
+&nbsp;        // 1. On vérifie d&#39;abord si la journée existe !
+<b class="fc">&nbsp;        if (!journeeRepository.existsById(idJournee)) {</b>
+<b class="fc">&nbsp;            throw new NotFoundElementRestException(&quot;La journee n&#39;existe pas&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // CHANGÉ : On récupère les entités, et on les mappe en objets purs
+<b class="fc">&nbsp;        Set&lt;TourneeEntity&gt; entities = tourneeRepository.findByJourneeEntityId(idJournee);</b>
+<b class="fc">&nbsp;        return tourneeMapper.toTournees(entities);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void deleteTournee(Long id) {
+&nbsp;        // On vérifie que la tournée existe bien
+<b class="fc">&nbsp;        if (!tourneeRepository.existsById(id)) {</b>
+<b class="fc">&nbsp;            throw new NotFoundElementRestException(&quot;La tournée [&quot; + id + &quot;] n&#39;existe pas&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // On supprime
+<b class="fc">&nbsp;        tourneeRepository.deleteById(id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-11 13:20</div>
+</div>
+</body>
+</html>

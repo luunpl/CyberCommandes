@@ -1,0 +1,64 @@
+<div class="layout-container">
+
+  <app-planification-control
+    [resultStandard]="planif.resultStandard()"
+    [resultGreedy]="planif.resultGreedy()"
+    [resultCW]="planif.resultCW()"
+    [resultKM]="planif.resultKM()"
+    (generateEvent)="handleGenerate($event)"
+    (runGrid)="handleGrid($event)"
+    (runGreedy)="handleGreedy($event)"
+    (runCW)="handleCW($event)"
+    (runKM)="handleKM($event)">
+  </app-planification-control>
+
+  <main class="main-content">
+
+    <nav class="nav-tabs">
+      <button [class.active]="vueActuelle() === 'carte'" (click)="vueActuelle.set('carte')">
+         Vue Actuelle
+      </button>
+      <button [class.active]="vueActuelle() === 'historique'" (click)="vueActuelle.set('historique')">
+         Historique ({{ planif.historique().length }})
+      </button>
+    </nav>
+
+    @if (planif.uiMessage(); as msg) {
+      <div class="toast-message" [class.info]="msg.type === 'info'" [class.success]="msg.type === 'success'" [class.error]="msg.type === 'error'">
+        {{ msg.text }}
+      </div>
+    }
+
+    @if (vueActuelle() === 'carte') {
+      <div class="map-full" leaflet [leafletOptions]="options" [leafletLayers]="layers()" (leafletMapReady)="onMapReady($event)"></div>
+      <app-comparaison-table [gridResult]="planif.resultStandard()" [greedyResult]="planif.resultGreedy()" [CWResult]="planif.resultCW()" [KMResult]="planif.resultKM()"></app-comparaison-table>
+    }
+
+    @if (vueActuelle() === 'historique') {
+      <div class="history-grid">
+        @for (item of planif.historique(); track item.id) {
+
+          <div class="history-card">
+            <div class="card-header"
+                 [class.bg-blue]="item.algoName.includes('Grid')"
+                 [class.bg-purple]="item.algoName.includes('Greedy')"
+                 [class.bg-green]="item.algoName.includes('Clarke')"
+                 [class.bg-orange]="item.algoName.includes('K-Means')">
+              <h3>{{ item.algoName }}</h3>
+              <p>Dist: {{ item.distanceKm | number:'1.0-2' }} km | {{ item.durationH | number:'1.0-2' }} h | {{ item.nbVehicules }} Véh.</p>
+            </div>
+
+            <div class="map-mini" leaflet [leafletOptions]="options" [leafletLayers]="construireLayers(item.adresses, item.routes)" (leafletMapReady)="onMapReady($event)"></div>
+          </div>
+
+        } @empty {
+          <div class="empty-msg">
+            <h2>Aucun tracé enregistré.</h2>
+            <p>Cliquez sur l'un des algorithmes dans le panneau de gauche. Il s'ajoutera automatiquement ici.</p>
+          </div>
+        }
+      </div>
+    }
+
+  </main>
+</div>

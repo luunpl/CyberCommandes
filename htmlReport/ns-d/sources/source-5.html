@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProduitService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">fr.uga.miage.l3.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ProduitService (fr.uga.miage.l3.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProduitService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8,3%
+  </span>
+  <span class="absValue">
+    (1/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package fr.uga.miage.l3.services;
+&nbsp;
+&nbsp;import fr.uga.miage.l3.component.ProduitComponent;
+&nbsp;import fr.uga.miage.l3.domain.models.Produit;
+&nbsp;import fr.uga.miage.l3.exceptions.rest.BadRequestRestException;
+&nbsp;import fr.uga.miage.l3.exceptions.rest.NotFoundElementRestException; // Ou ProduitNotFoundRestException selon tes classes
+&nbsp;import fr.uga.miage.l3.request.ProduitCreationRequest;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class ProduitService {
+&nbsp;
+&nbsp;    private final ProduitComponent produitComponent;
+&nbsp;
+&nbsp;    public Produit getProduitById(Long id) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return produitComponent.getProduit(id);</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            throw new NotFoundElementRestException(&quot;Le produit avec l&#39;ID [&quot; + id + &quot;] est introuvable.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Set&lt;Produit&gt; getProduitsParCommande(Long idCommande) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return produitComponent.getProduitsParCommande(idCommande);</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            throw new NotFoundElementRestException(&quot;La commande avec l&#39;ID [&quot; + idCommande + &quot;] est introuvable.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Produit createProduit(ProduitCreationRequest request) {
+<b class="nc">&nbsp;        if (request.nom() == null || request.nom().isBlank()) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;Le nom du produit ne peut pas être vide.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (request.prixUnitaire() == null || request.prixUnitaire() &lt; 0) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;Le prix unitaire doit être positif.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (request.quantite() == null || request.quantite() &lt; 0) {</b>
+<b class="nc">&nbsp;            throw new BadRequestRestException(&quot;La quantité ne peut pas être négative.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return produitComponent.createProduit(request);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-11 13:20</div>
+</div>
+</body>
+</html>

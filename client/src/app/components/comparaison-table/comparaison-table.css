@@ -1,0 +1,217 @@
+.table-container {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.table-container h3 {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.2px;
+}
+
+/* --- SÉLECTEUR MOTORISATION --- */
+.energy-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.energy-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.energy-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.energy-button {
+  border: 1.5px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-weight: 500;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+
+  &:hover {
+    background: #f3f4f6;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.energy-button.diesel.active {
+  background: #1f2937;
+  border-color: #1f2937;
+  color: white;
+}
+
+.energy-button.essence.active {
+  background: #ea580c;
+  border-color: #ea580c;
+  color: white;
+}
+
+.prix-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.prix-input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.83rem;
+  text-align: right;
+  background: #f9fafb;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background: white;
+  }
+}
+
+.prix-unite {
+  font-size: 0.78rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.energy-button.electrique.active {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+/* --- NOTE INFO --- */
+.table-note {
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  margin-bottom: 14px;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.table-note.diesel {
+  background: #f3f4f6;
+  border-left-color: #1f2937;
+  color: #1f2937;
+}
+
+.table-note.essence {
+  background: #fff7ed;
+  border-left-color: #ea580c;
+  color: #7c2d12;
+}
+
+.table-note.electrique {
+  background: #f0fdf4;
+  border-left-color: #16a34a;
+  color: #166534;
+}
+
+/* --- TABLEAU --- */
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+.styled-table thead tr {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  color: white;
+  text-align: left;
+}
+
+.styled-table th {
+  padding: 12px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.styled-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+  transition: background 0.2s ease;
+}
+
+/* Animation d'apparition des lignes */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.styled-table tbody tr {
+  animation: fadeSlideIn 0.3s ease forwards;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    background: #f0f5ff;
+    box-shadow: inset 4px 0 0 currentColor;
+  }
+
+  &:last-of-type td {
+    border-bottom: none;
+  }
+}
+
+/* Délai en cascade pour chaque ligne */
+.styled-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.styled-table tbody tr:nth-child(2) { animation-delay: 0.12s; }
+.styled-table tbody tr:nth-child(3) { animation-delay: 0.19s; }
+.styled-table tbody tr:nth-child(4) { animation-delay: 0.26s; }
+
+/* Bande colorée à gauche */
+.algo-grid   { border-left: 4px solid #2563eb; }
+.algo-greedy { border-left: 4px solid #7c3aed; }
+.algo-cw     { border-left: 4px solid #16a34a; }
+.algo-km     { border-left: 4px solid #d97706; }
+
+/* Couleur du texte algo */
+.algo-grid   td:first-child { color: #2563eb; font-weight: 600; }
+.algo-greedy td:first-child { color: #7c3aed; font-weight: 600; }
+.algo-cw     td:first-child { color: #16a34a; font-weight: 600; }
+.algo-km     td:first-child { color: #d97706; font-weight: 600; }
+
+/* --- ÉTAT VIDE --- */
+.empty-message {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  padding: 30px 0 !important;
+  font-style: italic;
+}

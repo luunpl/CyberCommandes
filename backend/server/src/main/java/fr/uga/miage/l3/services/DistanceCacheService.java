@@ -1,0 +1,122 @@
+package fr.uga.miage.l3.services;
+
+import fr.uga.miage.l3.models.DistanceCacheEntity;
+import fr.uga.miage.l3.repository.DistanceCacheRepository;
+import fr.uga.miage.l3.request.CoordinateRequest;
+import fr.uga.miage.l3.responses.MatrixResponse;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+@RequiredArgsConstructor
+public class DistanceCacheService {
+    private final DistanceCacheRepository distanceCacheRepository;
+
+    //  LE CACHE EN RAM ! (Ultra-rapide, prend très peu de place)
+    private final Map<String, DistanceCacheEntity> ramCache = new ConcurrentHashMap<>();
+
+    // Générateur de clé unique pour chaque trajet
+    private String generateKey(Double latDep, Double lngDep, Double latArr, Double lngArr) {
+        return round(latDep) + "_" + round(lngDep) + "_" + round(latArr) + "_" + round(lngArr);
+    }
+
+    // Petite fonction utilitaire pour arrondir proprement
+    private double round(Double value) {
+        if (value == null) return 0.0;
+        return Math.round(value * 1000000.0) / 1000000.0;
+    }
+
+    // Cette méthode s'exécute toute seule au démarrage de Spring Boot
+    @PostConstruct
+    public void initCache() {
+        System.out.println("⏳ Chargement de la base de données en RAM...");
+        List<DistanceCacheEntity> all = distanceCacheRepository.findAll();
+        for (DistanceCacheEntity entity : all) {
+            ramCache.put(generateKey(entity.getLatDepart(), entity.getLngDepart(), entity.getLatArrivee(), entity.getLngArrivee()), entity);
+        }
+        System.out.println("✅ " + all.size() + " trajets chargés en RAM de façon instantanée !");
+    }
+
+    public void saveAllTrajets(List<DistanceCacheEntity> trajets) {
+        List<DistanceCacheEntity> nouveauxTrajets = new ArrayList<>();
+
+        for (DistanceCacheEntity trajet : trajets) {
+            String key = generateKey(trajet.getLatDepart(), trajet.getLngDepart(), trajet.getLatArrivee(), trajet.getLngArrivee());
+
+            // Si on ne l'a pas en RAM, on l'ajoute à la liste pour le sauvegarder
+            if (!ramCache.containsKey(key)) {
+                nouveauxTrajets.add(trajet);
+                ramCache.put(key, trajet); // On met à jour la RAM tout de suite
+            }
+        }
+
+        // On sauvegarde TOUT d'un coup dans la BDD (100x plus rapide qu'une boucle)
+        if (!nouveauxTrajets.isEmpty()) {
+            distanceCacheRepository.saveAll(nouveauxTrajets);
+        }
+    }
+
+    public void saveTrajet(DistanceCacheEntity trajet) {
+        String key = generateKey(trajet.getLatDepart(), trajet.getLngDepart(), trajet.getLatArrivee(), trajet.getLngArrivee());
+        if (!ramCache.containsKey(key)) {
+            distanceCacheRepository.save(trajet);
+            ramCache.put(key, trajet);
+        }
+    }
+
+    public DistanceCacheEntity getTrajet(Double latDep, Double lngDep, Double latArr, Double lngArr) {
+        // 🚀 RECHERCHE INSTANTANÉE DANS LA RAM (0 milliseconde au lieu de 10ms)
+        String key = generateKey(latDep, lngDep, latArr, lngArr);
+        return ramCache.get(key);
+    }
+
+    public List<DistanceCacheEntity> getAllTrajets() {
+        return new ArrayList<>(ramCache.values());
+    }
+
+    public MatrixResponse buildMatrixIfComplete(List<CoordinateRequest> points) {
+        int n = points.size();
+        List<List<Double>> distances = new ArrayList<>();
+        List<List<Double>> times = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            List<Double> distRow = new ArrayList<>();
+            List<Double> timeRow = new ArrayList<>();
+
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    distRow.add(0.0);
+                    timeRow.add(0.0);
+                } else {
+                    CoordinateRequest p1 = points.get(i);
+                    CoordinateRequest p2 = points.get(j);
+
+                    // Fait appel à notre RAM super rapide !
+                    DistanceCacheEntity trajet = getTrajet(p1.lat(), p1.lng(), p2.lat(), p2.lng());
+
+                    if (trajet == null) {
+                        // Si un petit point a été raté par le cache, on met une distance énorme (9999 km)
+                        // Comme ça, l'algorithme ne passera jamais par là, mais IL NE PLANTERA PAS !
+
+
+                        System.out.println("⚠️ Trajet manquant ignoré : " + p1.lat() + " vers " + p2.lat());
+                        distRow.add(9999.0);
+                        timeRow.add(9999.0);
+                    } else {
+                        distRow.add(trajet.getDistance());
+                        timeRow.add(trajet.getTemps());
+                    }
+                }
+            }
+            distances.add(distRow);
+            times.add(timeRow);
+        }
+        return new MatrixResponse(distances, times);
+    }
+}

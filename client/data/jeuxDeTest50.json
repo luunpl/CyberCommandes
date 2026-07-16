@@ -1,0 +1,352 @@
+[
+  {
+    "lat": 45.174748679607106,
+    "lng": 5.684281339572911,
+    "name": "4 Avenue Hector Berlioz",
+    "postCode": "38485",
+    "city": "Seyssinet-Pariset"
+  },
+  {
+    "lat": 45.16245559078791,
+    "lng": 5.682347797375324,
+    "name": "162bis Avenue de Grenoble",
+    "postCode": "38486",
+    "city": "Seyssins"
+  },
+  {
+    "lat": 45.2147972251538,
+    "lng": 5.681042107414251,
+    "name": "9 rue Marcel Paul",
+    "postCode": "38382",
+    "city": "Saint-Égrève"
+  },
+  {
+    "lat": 45.16435071026953,
+    "lng": 5.8630183115271,
+    "name": "153 Chemin de la Planchette",
+    "postCode": "38422",
+    "city": "Saint-Martin-d'Uriage"
+  },
+  {
+    "lat": 45.16793114886268,
+    "lng": 5.630317640960235,
+    "name": "Route du Télécabine",
+    "postCode": "38433",
+    "city": "Saint-Nizier-du-Moucherotte"
+  },
+  {
+    "lat": 45.11898163178942,
+    "lng": 5.70230003616825,
+    "name": "41 Avenue du Maquis de l'Oisans",
+    "postCode": "38317",
+    "city": "Le Pont-de-Claix"
+  },
+  {
+    "lat": 45.25504406778668,
+    "lng": 5.841955651242094,
+    "name": "43 Allée du Mémorial",
+    "postCode": "38397",
+    "city": "Saint-Ismier"
+  },
+  {
+    "lat": 45.108586971139076,
+    "lng": 5.724090216001733,
+    "name": "1 Chemin du Foulet",
+    "postCode": "38068",
+    "city": "Champagnier"
+  },
+  {
+    "lat": 45.276557576924276,
+    "lng": 5.898761622830008,
+    "name": "450 Rue Henri Fabre",
+    "postCode": "38140",
+    "city": "Crolles"
+  },
+  {
+    "lat": 45.24348951956697,
+    "lng": 5.769581551002031,
+    "name": "727 Route du Saint Eynard",
+    "postCode": "38471",
+    "city": "Le Sappey-en-Chartreuse"
+  },
+  {
+    "lat": 45.120238023900505,
+    "lng": 5.692336789835046,
+    "name": "5 Avenue de la Ridelet",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.11599972457462,
+    "lng": 5.705334401502832,
+    "name": "11 Rue Marie Blanche Bon",
+    "postCode": "38317",
+    "city": "Le Pont-de-Claix"
+  },
+  {
+    "lat": 45.14926868551705,
+    "lng": 5.724046125145384,
+    "name": "13 Allée du Parc",
+    "postCode": "38151",
+    "city": "Échirolles"
+  },
+  {
+    "lat": 45.199393467041766,
+    "lng": 5.759293159244289,
+    "name": "139 Chemin de la Tuilerie",
+    "postCode": "38229",
+    "city": "Meylan"
+  },
+  {
+    "lat": 45.11167008785094,
+    "lng": 5.681805651190124,
+    "name": "16 Rue de l'Industrie",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.14016638922882,
+    "lng": 5.679076536074209,
+    "name": "1 Chemin du Chatelard",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.16655695784227,
+    "lng": 5.854142945062128,
+    "name": "265 Route de Montrond",
+    "postCode": "38422",
+    "city": "Saint-Martin-d'Uriage"
+  },
+  {
+    "lat": 45.10139199608506,
+    "lng": 5.690403482159429,
+    "name": "37 Rue du Lavoir",
+    "postCode": "38524",
+    "city": "Varces-Allières-et-Risset"
+  },
+  {
+    "lat": 45.15283970975377,
+    "lng": 5.728991700790091,
+    "name": "3 Rue de Lorraine",
+    "postCode": "38151",
+    "city": "Échirolles"
+  },
+  {
+    "lat": 45.198266609056816,
+    "lng": 5.791051805885183,
+    "name": "824 Chemin de la Charrière d'Enfer",
+    "postCode": "38229",
+    "city": "Meylan"
+  },
+  {
+    "lat": 45.22097347741464,
+    "lng": 5.693052810163142,
+    "name": "29 chemin fiancey",
+    "postCode": "38382",
+    "city": "Saint-Égrève"
+  },
+  {
+    "lat": 45.11867050110166,
+    "lng": 5.658712496155979,
+    "name": "43 Chemin de la Côte",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.291681300811796,
+    "lng": 5.856099618488731,
+    "name": "171 Chemin de Saint Pierre",
+    "postCode": "38395",
+    "city": "Plateau-des-Petites-Roches"
+  },
+  {
+    "lat": 45.25815634729336,
+    "lng": 5.89979238503517,
+    "name": "11 Rue des Castors",
+    "postCode": "38547",
+    "city": "Villard-Bonnot"
+  },
+  {
+    "lat": 45.14024367513383,
+    "lng": 5.834172846686523,
+    "name": "114 Chemin des Pensées",
+    "postCode": "38422",
+    "city": "Saint-Martin-d'Uriage"
+  },
+  {
+    "lat": 45.11958959693562,
+    "lng": 5.8114888596524805,
+    "name": "620 Avenue d’Uriage",
+    "postCode": "38529",
+    "city": "Vaulnaveys-le-Haut"
+  },
+  {
+    "lat": 45.283993274617316,
+    "lng": 5.872120644498019,
+    "name": "46 Impasse des Buis",
+    "postCode": "38140",
+    "city": "Crolles"
+  },
+  {
+    "lat": 45.11724994754398,
+    "lng": 5.821136589028329,
+    "name": "439 Impasse du Replat",
+    "postCode": "38529",
+    "city": "Vaulnaveys-le-Haut"
+  },
+  {
+    "lat": 45.192250367692296,
+    "lng": 5.888896986304356,
+    "name": "567 Chemin du Tort",
+    "postCode": "38334",
+    "city": "Revel"
+  },
+  {
+    "lat": 45.26317256244882,
+    "lng": 5.638294471283457,
+    "name": "130 Impasse du Plan",
+    "postCode": "38565",
+    "city": "Voreppe"
+  },
+  {
+    "lat": 45.24078560157946,
+    "lng": 5.891720678756911,
+    "name": "5 Chemin du Méary",
+    "postCode": "38547",
+    "city": "Villard-Bonnot"
+  },
+  {
+    "lat": 45.149664709318195,
+    "lng": 5.836480516353509,
+    "name": "285 Route d'Uriage",
+    "postCode": "38422",
+    "city": "Saint-Martin-d'Uriage"
+  },
+  {
+    "lat": 45.20655632301798,
+    "lng": 5.758380666680309,
+    "name": "30 Rue le Poulet",
+    "postCode": "38229",
+    "city": "Meylan"
+  },
+  {
+    "lat": 45.24610699909156,
+    "lng": 5.804779241221016,
+    "name": "870 Chemin des Chevalieres",
+    "postCode": "38045",
+    "city": "Biviers"
+  },
+  {
+    "lat": 45.21832422510542,
+    "lng": 5.754382211383363,
+    "name": "Chemin de Chante Clair",
+    "postCode": "38126",
+    "city": "Corenc"
+  },
+  {
+    "lat": 45.17052100903018,
+    "lng": 5.702470885212889,
+    "name": "Rue Albert Thomas",
+    "postCode": "38185",
+    "city": "Grenoble"
+  },
+  {
+    "lat": 45.18080497778551,
+    "lng": 5.752906395084815,
+    "name": "36 Rue Docteur Lamaze",
+    "postCode": "38421",
+    "city": "Saint-Martin-d'Hères"
+  },
+  {
+    "lat": 45.2682503747088,
+    "lng": 5.650289112302934,
+    "name": "306 Chemin de La Bascule",
+    "postCode": "38565",
+    "city": "Voreppe"
+  },
+  {
+    "lat": 45.17188491603897,
+    "lng": 5.813638864080057,
+    "name": "Voie Communale 164",
+    "postCode": "38533",
+    "city": "Venon"
+  },
+  {
+    "lat": 45.216077708907214,
+    "lng": 5.7032012727535735,
+    "name": "1321 Route de Narbonne",
+    "postCode": "38423",
+    "city": "Saint-Martin-le-Vinoux"
+  },
+  {
+    "lat": 45.2581406361362,
+    "lng": 5.736867221634292,
+    "name": "726 Chemin du Bas de Montquaix",
+    "postCode": "38328",
+    "city": "Quaix-en-Chartreuse"
+  },
+  {
+    "lat": 45.18664743455897,
+    "lng": 5.615384975310366,
+    "name": "789 Route du Fournel",
+    "postCode": "38153",
+    "city": "Engins"
+  },
+  {
+    "lat": 45.11781700732294,
+    "lng": 5.656578246436548,
+    "name": "60 Chemin de la Côte",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.121392327352154,
+    "lng": 5.670751706064868,
+    "name": "6 Rue de la Revoire",
+    "postCode": "38111",
+    "city": "Claix"
+  },
+  {
+    "lat": 45.113112422299665,
+    "lng": 5.875782779912496,
+    "name": "863 Avenue du Pere Tasse",
+    "postCode": "38567",
+    "city": "Chamrousse"
+  },
+  {
+    "lat": 45.16244855224644,
+    "lng": 5.849795711318418,
+    "name": "1975 Route de Pinet",
+    "postCode": "38422",
+    "city": "Saint-Martin-d'Uriage"
+  },
+  {
+    "lat": 45.19348850077279,
+    "lng": 5.667372999526256,
+    "name": "25bis Rue de l’Abbe Vincent",
+    "postCode": "38169",
+    "city": "Fontaine"
+  },
+  {
+    "lat": 45.200006417644936,
+    "lng": 5.6874514147789945,
+    "name": "37 Rue des Buissonnées",
+    "postCode": "38169",
+    "city": "Fontaine"
+  },
+  {
+    "lat": 45.24229205814197,
+    "lng": 5.62090177275181,
+    "name": "Espace agricole ou naturel",
+    "postCode": "38281",
+    "city": "Noyarey"
+  },
+  {
+    "lat": 45.26937683813502,
+    "lng": 5.890782935343426,
+    "name": "93 Rue Jean Monnet",
+    "postCode": "38140",
+    "city": "Crolles"
+  }
+]

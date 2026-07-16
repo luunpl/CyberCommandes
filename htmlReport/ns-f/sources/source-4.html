@@ -1,0 +1,107 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProduitEndpoints</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">fr.uga.miage.l3.endpoints</a>
+</div>
+
+<h1>Coverage Summary for Class: ProduitEndpoints (fr.uga.miage.l3.endpoints)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ProduitEndpoints</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package fr.uga.miage.l3.endpoints;
+&nbsp;
+&nbsp;import fr.uga.miage.l3.request.ProduitCreationRequest;
+&nbsp;import fr.uga.miage.l3.responses.ProduitResponse;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Tag(name = &quot;Gestion de Produit&quot;, description = &quot;Tous les endpoints de Produit&quot;)
+&nbsp;@RequestMapping(&quot;/api/produits&quot;)
+&nbsp;public interface ProduitEndpoints {
+&nbsp;
+&nbsp;    // Récupérer un produit
+&nbsp;    @Operation(description = &quot;Récupérer un produit par son ID&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Le produit a été récupéré&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Le produit demandé n&#39;existe pas&quot;)
+&nbsp;    @ResponseStatus(HttpStatus.OK)
+&nbsp;    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    ProduitResponse getProduit(@PathVariable(name = &quot;id&quot;) Long id);
+&nbsp;
+&nbsp;    // Récupération de tous les produits d&#39;une commande
+&nbsp;    @Operation(description = &quot;Liste des Produits pour une Commande donnée&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;La liste des produits de la commande&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;La commande n&#39;existe pas&quot;)
+&nbsp;    @ResponseStatus(HttpStatus.OK)
+&nbsp;    @GetMapping(&quot;/commande/{idCommande}&quot;) // &lt;-- On change l&#39;URL
+&nbsp;    Set&lt;ProduitResponse&gt; getAllProduitCommande(@PathVariable(name = &quot;idCommande&quot;) Long idCommande);
+&nbsp;    // Création d&#39;un produit
+&nbsp;    @Operation(description = &quot;Création d&#39;un produit dans le catalogue&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Le produit a bien été créé&quot;)
+&nbsp;    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Erreur lors de la création du produit (données invalides)&quot;)
+&nbsp;    @ResponseStatus(HttpStatus.CREATED)
+&nbsp;    @PostMapping(&quot;/create&quot;)
+&nbsp;    ProduitResponse createProduit(@RequestBody ProduitCreationRequest request);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-11 13:20</div>
+</div>
+</body>
+</html>
