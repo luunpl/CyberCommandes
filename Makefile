@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
-COMPOSE := docker compose
+# Prefer Docker Compose V2 (`docker compose`); fall back to the legacy
+# standalone V1 binary (`docker-compose`) if the V2 plugin is not installed.
+COMPOSE := $(shell if docker compose version >/dev/null 2>&1; then echo "docker compose"; else echo "docker-compose"; fi)
 
 .PHONY: help
 help: ## Show this help
