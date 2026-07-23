@@ -34,3 +34,9 @@ Thumbs.db
 
 # ---- Docker ----
 *.log
+
+# ---- Large regenerable data ----
+# Precomputed distance-matrix cache (~69MB). It is derived data that the app
+# can recompute/cache, so it is kept out of git. See docker/seed-data.sql for
+# the small domain seed that IS tracked.
+docker/matrice-complete.sql
