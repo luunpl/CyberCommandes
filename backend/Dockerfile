@@ -11,13 +11,11 @@ COPY pom.xml ./
 COPY backend/pom.xml backend/pom.xml
 COPY backend/rest-api/pom.xml backend/rest-api/pom.xml
 COPY backend/server/pom.xml backend/server/pom.xml
-RUN --mount=type=cache,target=/root/.m2 \
-    mvn -B -f pom.xml -pl :server -am dependency:go-offline
+RUN mvn -B -f pom.xml -pl :server -am dependency:go-offline
 
 # Copy sources and build the runnable jar.
 COPY backend/ backend/
-RUN --mount=type=cache,target=/root/.m2 \
-    mvn -B -f pom.xml -pl :server -am clean package -DskipTests
+RUN mvn -B -f pom.xml -pl :server -am clean package -DskipTests
 RUN cp backend/server/target/server-*.jar /workspace/app.jar
 
 # ---- Stage 2: runtime ----
