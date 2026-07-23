@@ -19,7 +19,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springFoxSwagger.version>3.0.0</springFoxSwagger.version>
-		<swagger-annotation.version>1.6.14</swagger-annotation.version>
+		<swagger-annotation.version>1.6.16</swagger-annotation.version>
 		<springDoc.version>1.8.0</springDoc.version>
 	</properties>
 
