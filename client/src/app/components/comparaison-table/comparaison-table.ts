@@ -1,4 +1,4 @@
-import {Component, input, signal} from '@angular/core';
+import {Component, input, signal, ChangeDetectionStrategy} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import {AlgoResult} from '../../services/planification.service';
 
@@ -17,6 +17,7 @@ interface ProfilEnergie {
   standalone: true,
   imports: [DecimalPipe],
   templateUrl: './comparaison-table.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './comparaison-table.css',
 })
 export class ComparaisonTable {

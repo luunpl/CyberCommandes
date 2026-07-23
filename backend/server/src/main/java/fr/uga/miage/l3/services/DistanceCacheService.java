@@ -6,6 +6,7 @@ import fr.uga.miage.l3.request.CoordinateRequest;
 import fr.uga.miage.l3.responses.MatrixResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DistanceCacheService {
@@ -35,12 +37,12 @@ public class DistanceCacheService {
     // Cette méthode s'exécute toute seule au démarrage de Spring Boot
     @PostConstruct
     public void initCache() {
-        System.out.println("⏳ Chargement de la base de données en RAM...");
+        log.info("Chargement du cache de distances en RAM...");
         List<DistanceCacheEntity> all = distanceCacheRepository.findAll();
         for (DistanceCacheEntity entity : all) {
             ramCache.put(generateKey(entity.getLatDepart(), entity.getLngDepart(), entity.getLatArrivee(), entity.getLngArrivee()), entity);
         }
-        System.out.println("✅ " + all.size() + " trajets chargés en RAM de façon instantanée !");
+        log.info("{} trajets charges en RAM", all.size());
     }
 
     public void saveAllTrajets(List<DistanceCacheEntity> trajets) {
@@ -105,7 +107,7 @@ public class DistanceCacheService {
                         // Comme ça, l'algorithme ne passera jamais par là, mais IL NE PLANTERA PAS !
 
 
-                        System.out.println("⚠️ Trajet manquant ignoré : " + p1.lat() + " vers " + p2.lat());
+                        log.warn("Trajet manquant ignore : ({}, {}) vers ({}, {})", p1.lat(), p1.lng(), p2.lat(), p2.lng());
                         distRow.add(9999.0);
                         timeRow.add(9999.0);
                     } else {
