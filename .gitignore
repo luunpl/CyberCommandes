@@ -40,3 +40,7 @@ Thumbs.db
 # can recompute/cache, so it is kept out of git. See docker/seed-data.sql for
 # the small domain seed that IS tracked.
 docker/matrice-complete.sql
+
+# Angular build output copied into the backend (legacy "VM mode" deploys).
+# Always a stale duplicate of client/dist — build it, don't commit it.
+backend/server/src/main/resources/static/
