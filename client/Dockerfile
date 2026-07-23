@@ -13,7 +13,7 @@ COPY . .
 RUN npm run build
 
 # ---- Stage 2: serve with nginx ----
-FROM nginx:1.27-alpine AS runtime
+FROM nginx:1.31-alpine AS runtime
 
 # SPA + reverse-proxy config.
 COPY nginx.conf /etc/nginx/conf.d/default.conf
