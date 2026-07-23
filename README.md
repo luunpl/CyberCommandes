@@ -1,65 +1,130 @@
-# Projet Intégrateur 2025-2026
+# CyberCommandes
 
-## Frontend
+> Delivery / tour-planning management application — Projet Intégrateur 2025-2026 (Université Grenoble Alpes).
 
-* Vous trouverez la doc d'installation du frontend dans le fichier [`README-INSTALLATION`](client/README-INSTALLATION.md)
+[![CI](https://github.com/luunpl/cybercommandes/actions/workflows/ci.yml/badge.svg)](https://github.com/luunpl/cybercommandes/actions/workflows/ci.yml)
+[![CD](https://github.com/luunpl/cybercommandes/actions/workflows/cd.yml/badge.svg)](https://github.com/luunpl/cybercommandes/actions/workflows/cd.yml)
 
-## Backend
+A full-stack application built with an **Angular 21** frontend and a
+**Spring Boot 4 / Java 21** multi-module backend, backed by **PostgreSQL**.
+The repository is fully containerized and ships with CI/CD, image scanning,
+Kubernetes manifests and a Prometheus/Grafana monitoring stack.
 
-### Base de donnée local
+## Architecture
 
-* Vous pouvez créer une base de données local via le fichier [docker/docker-compose-local.yml](./docker/docker-compose-local.yml)
+```
+        ┌────────────┐     /api      ┌────────────┐      JDBC      ┌────────────┐
+Browser │  frontend  │ ────────────▶ │  backend   │ ─────────────▶ │ PostgreSQL │
+────────▶  (nginx)   │               │(Spring Boot)│               │            │
+        └────────────┘               └─────┬──────┘                └────────────┘
+                                           │ /actuator/prometheus
+                                           ▼
+                                  ┌──────────────────┐
+                                  │ Prometheus + Grafana │
+                                  └──────────────────┘
+```
+
+| Layer      | Tech                                             |
+|------------|--------------------------------------------------|
+| Frontend   | Angular 21, Leaflet, served by nginx             |
+| Backend    | Spring Boot 4, Java 21, JPA, MapStruct, Actuator |
+| Database   | PostgreSQL 16                                     |
+| CI/CD      | GitHub Actions, GHCR, Trivy, Dependabot          |
+| Orchestr.  | Docker Compose, Kubernetes (kustomize)           |
+| Monitoring | Prometheus, Grafana                              |
+
+## Quick start (Docker)
+
+The whole stack runs with a single command:
+
+```shell
+cp .env.example .env        # adjust values if needed
+make up                     # or: docker compose up --build -d
+```
+
+| Service    | URL                                    |
+|------------|----------------------------------------|
+| Frontend   | http://localhost:4200                  |
+| Backend    | http://localhost:8080                  |
+| Swagger UI | http://localhost:8080/swagger-ui.html  |
+| Health     | http://localhost:8080/actuator/health  |
+
+With monitoring (`make monitoring`): Grafana on http://localhost:3000
+(admin / `GRAFANA_ADMIN_PASSWORD`), Prometheus on http://localhost:9090.
+
+Run `make help` to list every available command.
+
+## Kubernetes
+
+Manifests live in [`k8s/`](k8s/) and are assembled with kustomize:
+
+```shell
+kubectl apply -k k8s/       # or: make k8s-deploy
+```
+
+Set the image tags produced by the CD pipeline before deploying:
+
+```shell
+cd k8s
+kustomize edit set image \
+  ghcr.io/luunpl/cybercommandes-backend=ghcr.io/luunpl/cybercommandes-backend:<tag>
+```
+
+## CI/CD
+
+- **CI** (`.github/workflows/ci.yml`) — builds and tests the backend
+  (`mvn verify`, H2) and the frontend (`npm ci`, unit tests, production build)
+  on every push and pull request.
+- **CD** (`.github/workflows/cd.yml`) — builds the backend and frontend Docker
+  images, scans them with **Trivy** (results uploaded to the GitHub Security
+  tab), and pushes them to **GHCR** on `main` and version tags.
+- **Dependabot** keeps Maven, npm, GitHub Actions and Docker base images up to
+  date.
+
+---
+
+## Développement (FR)
+
+### Base de données locale
+
+Vous pouvez créer une base de données locale via
+[`docker/docker-compose-local.yml`](./docker/docker-compose-local.yml).
 
 #### Prérequis
 
-1. Avoir installé sur votre machine
-    * pour [windows](https://docs.docker.com/desktop/setup/install/windows-install/) 
-    * pour les [autres](https://docs.docker.com/engine/install/)
-2. Avoir [docker-compose](https://docs.docker.com/compose/install/)
+1. [Docker](https://docs.docker.com/engine/install/) et
+   [docker-compose](https://docs.docker.com/compose/install/) installés.
 
-Sur les VM, tout cela est déjà installé normalement.
+#### Démarrage / arrêt
 
-#### Commande de démarrage
 ```shell
-sudo docker compose -f docker/docker-compose-local.yml up --detach
-```
-
-#### Commande d'arrêt
-```shell
+docker compose -f docker/docker-compose-local.yml up --detach
 docker compose -f docker/docker-compose-local.yml down
 ```
 
-#### Voir les données
+### Variables d'environnement
 
-* Pour voir les données de la base de données, ajoutez une data-source dans inttelij de cette manière
-    1. Demande de création d'une data-source
-        ![create-data-source](./resources/create-data-source.png)
-    2. configuration de la data source  
-        ![config-data-source](./resources/config-data-source.png)
-        avec comme mot de passe`postgres`
-
-
-### Variable d'environnements
-
-* Les variables d'environnement à mettre dans le `.env`
+Copiez `.env.example` vers `.env`. Les variables consommées par le backend :
 
 ```dotenv
 DB_USERNAME=<username>
 DB_PASSWORD=<password>
-DB_URL=jdbc:postgres/<server>:<port>/<database>
+DB_URL=jdbc:postgresql://<server>:<port>/<database>
 DB_JPA_DDL_AUTO=<create-drop | create | update | validate | none>
 ```
-Référez-vous au fichier `docker/docker-compose-local.yml` pour connaitre a configuration locale.
 
-### Compiler le serveur
+### Compiler et démarrer le serveur
 
 ```shell
-cd backend
-mvn clean install
+mvn -f pom.xml -pl :server -am clean install   # compiler
+make backend                                   # démarrer Spring Boot
 ```
 
-### Démarrer spring 
+### Frontend
+
+La doc d'installation du frontend est dans
+[`client/README-INSTALLATION.md`](client/README-INSTALLATION.md).
+
 ```shell
-cd backend
-mvn spring-boot:run -f server
+cd client && npm install && npm start
 ```
