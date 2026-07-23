@@ -3,7 +3,7 @@
 # ---- Stage 1: build ----
 # Multi-module Maven build. Build context is the repository root so the
 # parent POM (root pom.xml) is available to the reactor.
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3-eclipse-temurin-26 AS build
 WORKDIR /workspace
 
 # Copy POMs first to leverage Docker layer caching for dependencies.
