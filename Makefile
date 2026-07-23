@@ -1,7 +1,15 @@
 .DEFAULT_GOAL := help
-# Prefer Docker Compose V2 (`docker compose`); fall back to the legacy
-# standalone V1 binary (`docker-compose`) if the V2 plugin is not installed.
-COMPOSE := $(shell if docker compose version >/dev/null 2>&1; then echo "docker compose"; else echo "docker-compose"; fi)
+# This stack uses the modern Compose Spec, which requires Docker Compose V2.
+# The legacy V1 `docker-compose` binary cannot parse it.
+COMPOSE := docker compose
+
+.PHONY: _require-compose
+_require-compose:
+	@docker compose version >/dev/null 2>&1 || { \
+	  echo "==> Docker Compose V2 is required (this project uses the modern Compose Spec)."; \
+	  echo "    The legacy 'docker-compose' V1 cannot run it. Install V2:"; \
+	  echo "    https://docs.docker.com/compose/install/linux/"; \
+	  exit 1; }
 
 .PHONY: help
 help: ## Show this help
@@ -10,7 +18,7 @@ help: ## Show this help
 
 ## ---- Local development ----
 .PHONY: db
-db: ## Start only the local PostgreSQL database
+db: _require-compose ## Start only the local PostgreSQL database
 	$(COMPOSE) -f docker/docker-compose-local.yml up -d
 
 .PHONY: backend
@@ -35,23 +43,23 @@ test-frontend: ## Run frontend tests
 
 ## ---- Docker (full stack) ----
 .PHONY: up
-up: ## Build and start the whole stack (db + backend + frontend)
+up: _require-compose ## Build and start the whole stack (db + backend + frontend)
 	$(COMPOSE) up --build -d
 
 .PHONY: down
-down: ## Stop the stack
+down: _require-compose ## Stop the stack
 	$(COMPOSE) down
 
 .PHONY: logs
-logs: ## Tail stack logs
+logs: _require-compose ## Tail stack logs
 	$(COMPOSE) logs -f
 
 .PHONY: seed
-seed: ## Load demo domain data into the running DB (run after `make up`)
+seed: _require-compose ## Load demo domain data into the running DB (run after `make up`)
 	$(COMPOSE) exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-local} < docker/seed-data.sql
 
 .PHONY: monitoring
-monitoring: ## Start the stack with Prometheus + Grafana
+monitoring: _require-compose ## Start the stack with Prometheus + Grafana
 	$(COMPOSE) --profile monitoring up --build -d
 
 ## ---- Kubernetes ----
