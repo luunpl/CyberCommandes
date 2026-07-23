@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.m2 \
 RUN cp backend/server/target/server-*.jar /workspace/app.jar
 
 # ---- Stage 2: runtime ----
-FROM eclipse-temurin:21-jre AS runtime
+FROM eclipse-temurin:25-jre AS runtime
 WORKDIR /app
 
 # curl is needed by the container healthcheck; then drop to an unprivileged user.
