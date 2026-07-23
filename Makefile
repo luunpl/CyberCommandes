@@ -55,8 +55,19 @@ logs: _require-compose ## Tail stack logs
 	$(COMPOSE) logs -f
 
 .PHONY: seed
-seed: _require-compose ## Load demo domain data into the running DB (run after `make up`)
-	$(COMPOSE) exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-local} < docker/seed-data.sql
+seed: _require-compose ## Load demo data (re-runnable; delivery dates become today)
+	@echo "==> Waiting for the backend to create the database schema (max 2 min)..."
+	@ok=0; for i in $$(seq 1 60); do \
+	  if $(COMPOSE) exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-local} \
+	       -c 'SELECT 1 FROM commande_entity LIMIT 1;' >/dev/null 2>&1; then ok=1; break; fi; \
+	  printf '.'; sleep 2; \
+	done; echo ""; \
+	if [ "$$ok" != "1" ]; then \
+	  echo "==> Schema not ready. Is the stack up? Check with: make logs"; exit 1; fi
+	$(COMPOSE) exec -T postgres psql -v ON_ERROR_STOP=1 -q \
+	  -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-local} < docker/seed-data.sql
+	@echo "==> Demo data loaded. Delivery dates are set to TODAY ($$(date +%F));"
+	@echo "    re-run 'make seed' any day to refresh them."
 
 .PHONY: monitoring
 monitoring: _require-compose ## Start the stack with Prometheus + Grafana

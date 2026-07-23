@@ -2,6 +2,19 @@
 -- The distance matrix (distance_cache_entity) is a regenerable cache and is
 -- intentionally NOT included here. Load after the schema exists: see 'make seed'.
 
+
+-- Re-runnable: wipe previously seeded demo rows first so delivery dates
+-- (CURRENT_DATE) always refresh to "today". The distance cache is untouched
+-- (distance_cache_entity has no FK to these tables).
+TRUNCATE TABLE
+  public.commande_entity_produit_entities,
+  public.commande_entity,
+  public.client_entity,
+  public.adresse_entity,
+  public.produit_entity,
+  public.journee_entity
+  RESTART IDENTITY CASCADE;
+
 INSERT INTO public.adresse_entity (id, latitude, longitude, rue, ville) VALUES (1, 45.189, 5.715, '1 Cours Jean Jaurès', 'Grenoble');
 INSERT INTO public.adresse_entity (id, latitude, longitude, rue, ville) VALUES (2, 45.162, 5.731, '5 Cours Jean Jaurès', 'Grenoble');
 INSERT INTO public.adresse_entity (id, latitude, longitude, rue, ville) VALUES (3, 45.194, 5.706, '12 Cours Jean Jaurès', 'Grenoble');

@@ -63,6 +63,12 @@ domain data (addresses, clients, orders, products):
 make seed          # loads docker/seed-data.sql into the running database
 ```
 
+`make seed` waits until the backend has created the schema, then loads the
+data. The demo orders' delivery date is set to **the day you run it**
+(`CURRENT_DATE`), which is the date the UI queries on startup. The seed is
+**re-runnable**: run it again any day to wipe and reload the demo rows with
+fresh dates — the distance cache is left untouched.
+
 > **Note on the distance matrix.** The `distance_cache_entity` table is a
 > *precomputed, regenerable cache* (~99% of the original dump, ~69&nbsp;MB) and is
 > intentionally **not** tracked in git — only the small domain seed
