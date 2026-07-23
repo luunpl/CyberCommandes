@@ -5,10 +5,22 @@
 [![CI](https://github.com/luunpl/cybercommandes/actions/workflows/ci.yml/badge.svg)](https://github.com/luunpl/cybercommandes/actions/workflows/ci.yml)
 [![CD](https://github.com/luunpl/cybercommandes/actions/workflows/cd.yml/badge.svg)](https://github.com/luunpl/cybercommandes/actions/workflows/cd.yml)
 
-A full-stack application built with an **Angular 21** frontend and a
+A full-stack application built with an **Angular 22** frontend and a
 **Spring Boot 4 / Java 21** multi-module backend, backed by **PostgreSQL**.
 The repository is fully containerized and ships with CI/CD, image scanning,
 Kubernetes manifests and a Prometheus/Grafana monitoring stack.
+
+## Demo
+
+**Grid Strategy** planning 399 deliveries around Grenoble with 3 vehicles
+(664&nbsp;km, 18.45&nbsp;h), with the cost/energy/CO₂ comparison table:
+
+![Grid Strategy sur 399 commandes](resources/screenshots/grid-strategy-399-commandes.jpg)
+
+Every run is saved to the **Historique** tab for side-by-side comparison —
+here K-Means vs Clarke &amp; Wright on the same delivery set:
+
+![Historique — comparaison des algorithmes](resources/screenshots/historique-comparaison-algorithmes.jpg)
 
 ## Architecture
 
@@ -26,7 +38,7 @@ Browser │  frontend  │ ────────────▶ │  backend 
 
 | Layer      | Tech                                             |
 |------------|--------------------------------------------------|
-| Frontend   | Angular 21, Leaflet, served by nginx             |
+| Frontend   | Angular 22, Leaflet, served by nginx             |
 | Backend    | Spring Boot 4, Java 21, JPA, MapStruct, Actuator |
 | Database   | PostgreSQL 16                                     |
 | CI/CD      | GitHub Actions, GHCR, Trivy, Dependabot          |
