@@ -22,8 +22,9 @@ db: _require-compose ## Start only the local PostgreSQL database
 	$(COMPOSE) -f docker/docker-compose-local.yml up -d
 
 .PHONY: backend
-backend: ## Run the Spring Boot backend locally
-	mvn -f pom.xml -pl :server -am spring-boot:run
+backend: ## Build and run the Spring Boot backend locally
+	mvn -B -f pom.xml -pl :server -am -DskipTests package
+	java -jar backend/server/target/server-*.jar
 
 .PHONY: frontend
 frontend: ## Run the Angular dev server
