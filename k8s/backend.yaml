@@ -54,4 +54,7 @@ spec:
               memory: 512Mi
             limits:
               cpu: "1"
-              memory: 768Mi
+              # DistanceCacheService loads the whole distance_cache table into
+              # an in-memory map at startup (~405k rows with the full dump), so
+              # the heap needs headroom beyond a typical Spring Boot app.
+              memory: 1Gi

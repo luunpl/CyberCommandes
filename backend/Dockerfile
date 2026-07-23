@@ -19,14 +19,13 @@ RUN mvn -B -f pom.xml -pl :server -am clean package -DskipTests
 RUN cp backend/server/target/server-*.jar /workspace/app.jar
 
 # ---- Stage 2: runtime ----
-FROM eclipse-temurin:25-jre AS runtime
+# Alpine variant: ~100MB smaller than the Ubuntu-based JRE image, and its
+# busybox wget covers the healthcheck, so no extra packages are needed.
+FROM eclipse-temurin:25-jre-alpine AS runtime
 WORKDIR /app
 
-# curl is needed by the container healthcheck; then drop to an unprivileged user.
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && groupadd --system spring && useradd --system --gid spring spring
+# Run as an unprivileged user.
+RUN addgroup -S spring && adduser -S -G spring spring
 USER spring:spring
 
 COPY --from=build /workspace/app.jar app.jar
@@ -35,6 +34,6 @@ EXPOSE 8080
 ENV JAVA_OPTS=""
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
-  CMD ["sh", "-c", "curl -fsS http://localhost:8080/actuator/health || exit 1"]
+  CMD ["sh", "-c", "wget -q --spider http://localhost:8080/actuator/health || exit 1"]
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
