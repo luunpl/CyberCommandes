@@ -7,10 +7,12 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-# Cancel superseded runs on the same ref.
+# Cancel superseded runs on PR/branch refs, but never on main: every commit
+# on main must get a full CI verdict (otherwise rapid merges leave the latest
+# main run "cancelled", which reads as a failure on the badge and Actions tab).
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   backend:
