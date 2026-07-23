@@ -92,7 +92,15 @@ Lancement du Backend (Spring Boot) :
 1. Configurer PostgreSQL dans `src/main/resources/application.properties`.
 2. Exécuter : `mvn spring-boot:run`
 3. Le serveur écoute sur http://localhost:8080.
-4. Execution de la matrice-cimplete.sql sur notre BD(commende à utiliser : docker-compose -f docker-compose-local.yml down -v ; docker-compose -f docker-compose-local.yml up -d (tous effectué dans le dossier docker) pui on execute matrice-completes.sql tout en choisissant la bd en question(l'execution dure entre 1 et 3 min le temps de remplir les données de la matrice ainsi que des adresses, des commandes etc .. dans la base de données)  )
+4. Charger les données de démo (adresses, clients, commandes, produits) :
+   une fois le backend démarré (le schéma est alors créé par Hibernate),
+   exécuter `make seed` depuis la racine du projet. Cela charge
+   `docker/seed-data.sql` dans la base.
+   La matrice de distances (`distance_cache_entity`) est un cache
+   régénérable : elle n'est pas versionnée. Si vous disposez du dump
+   complet hors-ligne (`docker/matrice-complete.sql`), chargez-le de la
+   même manière :
+   `docker compose exec -T postgres psql -U postgres -d local < docker/matrice-complete.sql`.
 
 Lancement du Frontend (Angular) :
 1. Aller dans le dossier `client`.

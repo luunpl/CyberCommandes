@@ -44,6 +44,10 @@ down: ## Stop the stack
 logs: ## Tail stack logs
 	$(COMPOSE) logs -f
 
+.PHONY: seed
+seed: ## Load demo domain data into the running DB (run after `make up`)
+	$(COMPOSE) exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-local} < docker/seed-data.sql
+
 .PHONY: monitoring
 monitoring: ## Start the stack with Prometheus + Grafana
 	$(COMPOSE) --profile monitoring up --build -d

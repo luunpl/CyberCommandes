@@ -54,6 +54,23 @@ With monitoring (`make monitoring`): Grafana on http://localhost:3000
 
 Run `make help` to list every available command.
 
+### Seed data
+
+Once the stack is up and the backend has created the schema, load the demo
+domain data (addresses, clients, orders, products):
+
+```shell
+make seed          # loads docker/seed-data.sql into the running database
+```
+
+> **Note on the distance matrix.** The `distance_cache_entity` table is a
+> *precomputed, regenerable cache* (~99% of the original dump, ~69&nbsp;MB) and is
+> intentionally **not** tracked in git — only the small domain seed
+> (`docker/seed-data.sql`, ~460&nbsp;KB) is. The application recomputes and caches
+> distances on demand. If you have the full offline dump
+> (`docker/matrice-complete.sql`, git-ignored), you can load it the same way:
+> `docker compose exec -T postgres psql -U postgres -d local < docker/matrice-complete.sql`.
+
 ## Kubernetes
 
 Manifests live in [`k8s/`](k8s/) and are assembled with kustomize:
