@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { PlanificationService, HistoriqueItem } from './services/planification.service';
 import { PlanificationControlComponent } from './components/planification-control/planification-control';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
@@ -13,6 +13,7 @@ import { Adresse } from './data/adresse';
   standalone: true,
   imports: [PlanificationControlComponent, LeafletModule, CommonModule, ComparaisonTable],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss'
 })
 export class App {

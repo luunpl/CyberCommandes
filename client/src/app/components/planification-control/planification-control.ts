@@ -1,4 +1,4 @@
-import {Component, inject, input, output} from '@angular/core';
+import {Component, inject, input, output, ChangeDetectionStrategy} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {AlgoResult, PlanificationService} from '../../services/planification.service';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './planification-control.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './planification-control.css'
 })
 export class PlanificationControlComponent {
