@@ -8,8 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { OptimizationResult, parseOptimizationResultP, RouteStepBase } from './OptimizationResult';
 import { GeoJSONFeatureCollectionSchema, GeoJSONLineStringSchema } from 'zod-geojson';
 
-const cartoURL = 'https://api-adresse.data.gouv.fr';
-const orsKey = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImQ0NjhjM2IzODY1MTQxODViZGYxOWM3NDQ3M2VlZjlkIiwiaCI6Im11cm11cjY0In0=';
+import { ORS_KEY as orsKey, CARTO_URL as cartoURL } from '../config';
 
 @Injectable({ providedIn: 'root' })
 export class Carto {

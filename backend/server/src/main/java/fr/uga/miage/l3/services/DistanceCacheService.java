@@ -82,10 +82,18 @@ public class DistanceCacheService {
         return new ArrayList<>(ramCache.values());
     }
 
+    /**
+     * Builds the full distance/time matrix for the given points from the cache.
+     * A few missing pairs (max 5%) are tolerated and filled with a prohibitive
+     * 9999 value so the algorithms simply avoid them. Beyond that threshold the
+     * cache is considered incomplete and null is returned, letting the caller
+     * (REST 404) trigger the frontend's OpenRouteService fallback.
+     */
     public MatrixResponse buildMatrixIfComplete(List<CoordinateRequest> points) {
         int n = points.size();
         List<List<Double>> distances = new ArrayList<>();
         List<List<Double>> times = new ArrayList<>();
+        int missing = 0;
 
         for (int i = 0; i < n; i++) {
             List<Double> distRow = new ArrayList<>();
@@ -99,14 +107,10 @@ public class DistanceCacheService {
                     CoordinateRequest p1 = points.get(i);
                     CoordinateRequest p2 = points.get(j);
 
-                    // Fait appel à notre RAM super rapide !
                     DistanceCacheEntity trajet = getTrajet(p1.lat(), p1.lng(), p2.lat(), p2.lng());
 
                     if (trajet == null) {
-                        // Si un petit point a été raté par le cache, on met une distance énorme (9999 km)
-                        // Comme ça, l'algorithme ne passera jamais par là, mais IL NE PLANTERA PAS !
-
-
+                        missing++;
                         log.warn("Trajet manquant ignore : ({}, {}) vers ({}, {})", p1.lat(), p1.lng(), p2.lat(), p2.lng());
                         distRow.add(9999.0);
                         timeRow.add(9999.0);
@@ -118,6 +122,12 @@ public class DistanceCacheService {
             }
             distances.add(distRow);
             times.add(timeRow);
+        }
+
+        int totalPairs = n * (n - 1);
+        if (totalPairs > 0 && missing > totalPairs * 0.05) {
+            log.info("Cache incomplet : {}/{} trajets manquants, matrice non servie", missing, totalPairs);
+            return null;
         }
         return new MatrixResponse(distances, times);
     }
