@@ -34,7 +34,7 @@
     "papaparse": "^5.5.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zod": "^4.3.6",
+    "zod": "^4.4.3",
     "zod-geojson": "^1.6.2"
   },
   "devDependencies": {
