@@ -21,7 +21,7 @@ RUN cp backend/server/target/server-*.jar /workspace/app.jar
 # ---- Stage 2: runtime ----
 # Alpine variant: ~100MB smaller than the Ubuntu-based JRE image, and its
 # busybox wget covers the healthcheck, so no extra packages are needed.
-FROM eclipse-temurin:25-jre-alpine AS runtime
+FROM eclipse-temurin:26-jre-alpine AS runtime
 WORKDIR /app
 
 # Run as an unprivileged user.
